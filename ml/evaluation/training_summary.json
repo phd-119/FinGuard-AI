@@ -1,0 +1,6 @@
+{
+  "intent_accuracy": 1.0,
+  "risk_rmse": 2.5180008166697183,
+  "risk_r2": 0.9905078337076064,
+  "decision_accuracy": 0.995
+}
