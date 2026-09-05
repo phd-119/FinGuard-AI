@@ -1,222 +1,804 @@
-# FIN GUARD AI
+# 🛡️ FinGuard AI
+**Razorpay AI Builder Internship 2026**
 
-> **Financial Governance Control Plane for Autonomous AI Agents**  
-> *Built for the Razorpay AI Builder Internship 2026 Buildathon.*
+## Financial Governance Control Plane for Autonomous AI Agents
+
+> **Govern the decision before you execute the money.**
+
+FinGuard AI is a financial governance control plane that sits between autonomous AI agents and financial execution.
+
+It evaluates proposed financial actions against **merchant intent, policies, global financial state, cross-agent conflicts, risk, future impact, and alternative scenarios** before deciding whether an action should be:
+
+**ALLOW · MODIFY · DELAY · ESCALATE · BLOCK**
 
 ---
 
-## 🌟 Executive Summary
+## 🎯 Problem
 
-**FinGuard AI** is an intelligent, unbypassable safety and governance control plane that sits between **Autonomous AI Agents** and **Financial Execution Systems**.
+### Autonomous AI agents can make locally correct but globally unsafe financial decisions.
 
+Modern businesses can operate multiple autonomous agents simultaneously.
+
+For example:
+
+| Agent | Objective |
+|---|---|
+| 💸 Payout Agent | Process payouts |
+| 🔄 Refund Agent | Process refunds |
+| 📈 Growth Agent | Spend for growth |
+| 📥 Collections Agent | Improve collections |
+| 🏦 Treasury Agent | Protect liquidity |
+
+Each agent may optimize its own objective.
+
+The problem is that **one agent may not know what another agent is doing at the same time.**
+
+This creates a new class of risk:
+
+> ### **Multi-agent financial conflicts**
+
+---
+
+## 💥 The Financial Collision
+
+Imagine a merchant with:
+
+| Financial State | Amount |
+|---|---:|
+| Available Cash | ₹6,00,000 |
+| Mandatory Reserve | ₹5,00,000 |
+| Free Liquidity | ₹1,00,000 |
+
+At the same time, three autonomous agents propose:
+
+| Agent | Proposed Outflow |
+|---|---:|
+| 💸 Payout Agent | ₹4,00,000 |
+| 📈 Growth Agent | ₹2,00,000 |
+| 🔄 Refund Agent | ₹1,00,000 |
+| **Total Proposed Outflow** | **₹7,00,000** |
+
+Individually, these proposals may look reasonable.
+
+Globally:
+
+
+Total Proposed Outflow = ₹7,00,000
+
+Available Free Liquidity = ₹1,00,000
+
+                    ↓
+
+          GLOBAL FINANCIAL CONFLICT
+
+Without a governance layer, independent agents can collectively create an unsafe financial outcome.
+
+
+# 💡 Core Innovation
+
+## Global Multi-Agent Financial Governance
+
+FinGuard AI introduces a governance layer between autonomous financial agents and financial execution.
+
+Global Multi-Agent Financial Governance
+
+FinGuard AI is not another financial AI agent.
+
+It is a governance layer for autonomous financial agents.
+
+
+```mermaid
+flowchart TB
+
+    subgraph A["AUTONOMOUS DECISION MAKING"]
+        A1["Payout Agent"]
+        A2["Growth Agent"]
+        A3["Refund Agent"]
+        A4["Collections Agent"]
+        A5["Treasury Agent"]
+    end
+
+    A1 --> F
+    A2 --> F
+    A3 --> F
+    A4 --> F
+    A5 --> F
+
+    F["🛡️ FINGUARD AI"]
+
+    F --> G1["Understand"]
+    G1 --> G2["Analyze"]
+    G2 --> G3["Simulate"]
+    G3 --> G4["Govern"]
+
+    G4 --> D["Governed Financial Decision"]
+
+    D --> X["Financial Execution"]
 ```
-┌──────────────────────────┐      ┌──────────────────────────┐      ┌──────────────────────────┐
-│   AUTONOMOUS AI AGENTS   │ ───► │      FIN GUARD AI        │ ───► │    FINANCIAL SYSTEM      │
-│     Decision Makers      │      │ Governance & Safety Plane│      │     Execution Layer      │
-└──────────────────────────┘      └──────────────────────────┘      └──────────────────────────┘
+
+### The key difference
+
+```mermaid
+flowchart LR
+
+    A["Individual Agent Objective"]
+    B["Global Financial State"]
+    C["Cross-Agent Interactions"]
+    D["Future Impact"]
+    E["FinGuard Governance"]
+    F["Safe Execution"]
+
+    A --> E
+    B --> E
+    C --> E
+    D --> E
+    E --> F
 ```
 
-The fundamental principle:
-1. **AI Agents** = Decision Makers (propose actions)
-2. **FinGuard AI** = Governance + Safety + Global Reconciliation Layer (adjudicates actions)
-3. **Financial System** = Execution Layer (simulated state movement)
+> **Agents decide what they want to do. FinGuard decides whether it is safe to do it.**
 
-> **Key Rule**: Autonomous AI agents must **NEVER** directly execute financial actions or hold raw payment API credentials. Every financial proposal must pass through the FinGuard Action Gateway.
+***Core Principle***
 
----
+Agents decide what they want to do.
+FinGuard decides whether it is safe to do it.
+Financial systems execute only governed actions.
 
-## 💡 The Core Innovation: Global Multi-Agent Financial Governance
 
-Most AI safety layers evaluate single agents in a silo. In enterprise finance, catastrophic risk arises when **multiple well-intentioned, uncoordinated autonomous agents submit actions simultaneously**.
+## 🏗️ System Architecture
 
-### ⚠️ The Failure Scenario (Why Siloed Governance Fails):
-- **Merchant Available Cash**: ₹6,00,000
-- **Mandatory Minimum Reserve**: ₹5,00,000 (Required for payroll & regulatory solvency)
-- **Unreserved Free Liquidity**: ₹1,00,000
+### High-Level System Architecture
 
-| Proposing Agent | Proposed Action | Amount | Stated Agent Objective | Appears Safe in Silo? |
-| :--- | :--- | :--- | :--- | :--- |
-| **Payout Agent** | Supplier Settlement | **₹4,00,000** | Pay critical raw materials invoice | ✅ Yes (Cash is ₹6L) |
-| **Growth Agent** | Performance Ad Spend | **₹2,00,000** | Q4 festive marketing campaign | ✅ Yes (Within budget) |
-| **Refund Agent** | Customer Dispute Batch | **₹1,00,000** | Honor return SLA for defective batch | ✅ Yes (Normal refunds) |
-| **TOTAL OUTFLOW** | **Simultaneous Outflow** | **₹7,00,000** | **Total capital demanded by fleet** | ❌ **INSOLVENCY BREACH** |
+```mermaid
+flowchart TB
 
-### 🛡️ How FinGuard Solves It:
-Instead of evaluating proposals in isolation:
-1. **Discovers Concurrent Load**: Detects that aggregate proposed outflow (₹7,00,000) exceeds total cash (₹6,00,000) and triggers a **₹6,00,000 statutory reserve shortfall**.
-2. **Calculates Multi-Factor Risk**: Evaluates risk score at **87/100 (Critical Risk)** via trained ML regression.
-3. **Simulates Counterfactual What-Ifs**: Compares immediate execution, split execution, delay, and block.
-4. **Synthesizes Constructive Alternative**: Rather than a dumb block, it generates a **`MODIFY`** decision:
-   - Disburse **₹1,00,000 immediately** (utilizing all available free liquidity to satisfy the urgent supplier milestone).
-   - Defer **₹3,00,000 by 24 hours** until scheduled receivables arrive.
-5. **Enforces Dual Human Signoff**: Routes to Treasury Reviewer for verification.
-6. **Safe Execution & Cryptographic Audit**: State is updated to **₹5,00,000 (Reserve 100% Intact)**, and a SHA-256 verified receipt is minted.
+    subgraph AGENTS["🤖 AUTONOMOUS AI AGENTS"]
+        A1["💸 Payout Agent"]
+        A2["🔄 Refund Agent"]
+        A3["📈 Growth Agent"]
+        A4["📥 Collections Agent"]
+        A5["🏦 Treasury Agent"]
+    end
 
----
+    A1 --> G
+    A2 --> G
+    A3 --> G
+    A4 --> G
+    A5 --> G
 
-## 🏗️ The 10-Stage FinGuard Governance Pipeline
+    G["🛡️ FINGUARD ACTION GATEWAY"]
 
-Every proposal follows this complete, unbypassable flow:
+    G --> I["Financial Intent Analysis"]
+    I --> P["Policy Engine"]
+    P --> S["Financial State Engine"]
+    S --> C["Cross-Agent Conflict Detection"]
+    C --> R["Risk & Future Impact Analysis"]
+    R --> T["Agent Trust Engine"]
+    T --> W["What-If Simulation"]
+    W --> O["Safe Alternative Generation"]
+    O --> D["Decision Engine"]
 
-```
-[ AI Agent Proposal ]
-        │
-        ▼
-[ 1. Action Gateway ] ──────────► Validates agent identity, permissions, and schema bounds
-        │
-        ▼
-[ 2. Financial Intent Engine ] ─► ML classification of commercial purpose and cashflow vector
-        │
-        ▼
-[ 3. Policy Engine ] ───────────► Evaluates statutory reserve floor, transaction caps, velocity
-        │
-        ▼
-[ 4. Financial State Engine ] ──► Queries real-time cash, reserve buffers, payables, receivables
-        │
-        ▼
-[ 5. Conflict Engine ] ─────────► CORE INNOVATION: Detects multi-agent global liquidity collisions
-        │
-        ▼
-[ 6. Prediction Engine ] ───────► Forecasts projected cash runway and reserve degradation
-        │
-        ▼
-[ 7. Risk Engine ] ─────────────► Multi-factor Gradient Boosting regression (0-100 risk score)
-        │
-        ▼
-[ 8. Agent Trust Engine ] ──────► Tracks historical compliance, violation rate, dynamic trust score
-        │
-        ▼
-[ 9. Simulation Studio ] ───────► Evaluates 4 counterfactual scenarios across liquidity curves
-        │
-        ▼
-[ 10. Safe Alternative & Decision ] ──► Derives: ALLOW | MODIFY | DELAY | ESCALATE | BLOCK
-        │
-        ▼
-[ Dual Human Approval (if required) ] ──► Human review and signoff for modified/escalated actions
-        │
-        ▼
-[ Financial Execution Simulator ] ────► Updates merchant ledger and balance (sandbox environment)
-        │
-        ▼
-[ Immutable Audit Trail ] ────────────► Cryptographic decision receipt with explainability rationale
+    D --> AL["🟢 ALLOW"]
+    D --> M["🟡 MODIFY"]
+    D --> DL["🟠 DELAY"]
+    D --> E["🔵 ESCALATE"]
+    D --> B["🔴 BLOCK"]
+
+    E --> H["👤 Human Approval"]
+
+    AL --> X["💳 Financial Execution Simulator"]
+    M --> X
+    DL --> X
+    H --> X
+
+    X --> F["📊 Updated Financial State"]
+    F --> AU["🧾 Tamper-Evident Audit Trail"]
 ```
 
+## 🤖 Autonomous Agent Fleet
+
+FinGuard AI governs multiple autonomous agents, each responsible for a different financial objective.
+
+| Agent | Responsibility |
+|---|---|
+| 💸 **Payout Agent** | Manages payout proposals |
+| 🔄 **Refund Agent** | Handles refund proposals |
+| 📈 **Growth Agent** | Proposes growth-related spending |
+| 📥 **Collections Agent** | Manages collection actions |
+| 🏦 **Treasury Agent** | Monitors liquidity and treasury state |
+## 🧠 Core Intelligence Modules
+
+FinGuard AI uses multiple intelligence modules to evaluate financial actions before they reach execution.
+
+| Module | Purpose |
+|---|---|
+| 🛡️ **Policy Engine** | Checks proposed actions against merchant-defined financial policies |
+| ⚡ **Action Gateway** | Intercepts every financial action before execution |
+| 🔄 **Conflict Engine** | Detects conflicts between simultaneous agent decisions |
+| 📊 **Risk Engine** | Evaluates financial and operational risk of each action |
+| 🔮 **Prediction Engine** | Estimates the future impact of proposed financial actions |
+| 🧪 **Simulation Engine** | Tests multiple what-if scenarios before deciding |
+| 💡 **Optimization Engine** | Generates safer alternatives when the original action is risky |
+| ⚖️ **Decision Engine** | Converts all intelligence into ALLOW, MODIFY, DELAY, ESCALATE, or BLOCK |
+| 🔐 **Trust Engine** | Tracks agent reliability and governance signals over time |
+
+
+FinGuard AI uses specialized intelligence modules to evaluate financial actions before execution.
+
+### 🔍 Understand
+
+| Module | Purpose |
+|---|---|
+| 🛡️ **Action Gateway** | Intercepts every proposed financial action |
+| 📋 **Policy Engine** | Checks actions against merchant-defined policies |
+| 🔄 **Conflict Engine** | Detects conflicts between autonomous agents |
+
+### 📊 Analyze
+
+| Module | Purpose |
+|---|---|
+| ⚠️ **Risk Engine** | Evaluates financial and operational risk |
+| 🔮 **Prediction Engine** | Estimates the future impact of an action |
+| 🧪 **Simulation Engine** | Tests multiple what-if scenarios |
+
+### ⚖️ Decide
+
+| Module | Purpose |
+|---|---|
+| 💡 **Optimization Engine** | Generates safer alternatives |
+| ⚖️ **Decision Engine** | Selects ALLOW, MODIFY, DELAY, ESCALATE, or BLOCK |
+| 🔐 **Trust Engine** | Tracks agent reliability and governance signals |
+
+
+              
+## ⚖️ Decision Engine
+
+The **Decision Engine** is the final governance layer of FinGuard AI.
+
+It combines policy checks, conflict detection, risk analysis, future impact, and simulation results to determine the safest execution path.
+
+### Five Governance Outcomes
+
+🟢 **ALLOW**  
+Action is within acceptable financial constraints.
+
+🟡 **MODIFY**  
+Action is changed to a safer form.
+
+🟠 **DELAY**  
+Action is postponed until conditions improve.
+
+🔵 **ESCALATE**  
+Human intervention is required before execution.
+
+🔴 **BLOCK**  
+Action should not be executed.
+
+### Example: Governed Payout Decision
+
+A Payout Agent proposes:
+
+> **💸 Payout Request — ₹4,00,000**
+
+Instead of directly executing the full amount, FinGuard evaluates the complete financial context and determines:
+
+```mermaid
+flowchart TD
+    A["💸 Payout Request<br/>₹4,00,000"] --> B["⚖️ FinGuard Decision Engine"]
+
+    B --> C["🟡 MODIFY"]
+
+    C --> D["₹1,00,000<br/>Execute Now"]
+    C --> E["₹3,00,000<br/>Delay"]
+
+    D --> F["🛡️ Preserve Liquidity"]
+    E --> F
+
+    F --> G["✅ Financial Objective Continues"]
+```
+## 🔥 Hero Demo
+
+### Multi-Agent Liquidity Collision
+
+The hero scenario demonstrates how FinGuard handles multiple autonomous agents competing for the same financial resources.
+
+### Stage 01 — 💰 Initial Financial State
+
+```text
+Available Cash       ₹6,00,000
+Required Reserve     ₹5,00,000
+Free Liquidity       ₹1,00,000
+```
+
+The merchant has only **₹1,00,000 of free liquidity** available for discretionary actions.
+
 ---
 
-## 🤖 The Autonomous AI Agents Fleet
+### Stage 02 — 🤖 Agents Submit Actions
 
-FinGuard ships with 5 simulated specialized financial AI agents:
+```text
+💸 Payout Agent       → ₹4,00,000
+📈 Growth Agent       → ₹2,00,000
+🔄 Refund Agent       → ₹1,00,000
 
-1. **Payout Agent** (`payout_agent`): Optimizes supplier/vendor payouts while preserving liquidity and credit terms.
-2. **Refund Agent** (`refund_agent`): Processes customer returns, chargebacks, and goodwill refunds adhering to policy limits.
-3. **Growth Agent** (`growth_agent`): Dynamically allocates paid advertising budgets across high-ROI acquisition channels.
-4. **Collections Agent** (`collections_agent`): Accelerates cash collections and offers early settlement incentives for receivables.
-5. **Treasury Agent** (`treasury_agent`): Manages overnight float sweeps, liquidity buffers, and statutory reserve compliance.
+Total Proposed Outflow → ₹7,00,000
+```
 
----
+Each action may appear reasonable when viewed independently.
 
-## 🧠 AI / ML Architecture & Methodology
-
-FinGuard avoids "fake AI" outputs. It employs real, trained scikit-learn models serialized in `ml/models/` with statistical failover bounds:
-
-- **Financial Intent Classifier** (`intent_classifier.joblib`): TF-IDF n-gram vectorizer + Logistic Regression trained on commercial transactions (100% test accuracy).
-- **Multi-Factor Risk Scorer Regressor** (`risk_scorer.joblib`): Gradient Boosting Regressor predicting continuous risk (0-100) based on liquidity ratios, concurrency severity, policy violations, and agent trust (R² = 0.991, RMSE = 2.518).
-- **Governance Decision Classifier** (`decision_classifier.joblib`): Random Forest classifier modeling optimal governance actions (99.5% accuracy).
+FinGuard evaluates them together.
 
 ---
 
-## 🚀 Quickstart & Installation
+### Stage 03 — ⚠️ Global Conflict Detected
 
-### Prerequisites
-- **Python 3.10+** (Tested on Python 3.11.9)
-- **Node.js 18+** & **npm** (Tested on Node v24 / npm 11)
+```text
+₹7,00,000 Proposed Outflow
+          ↓
+₹1,00,000 Free Liquidity
+          ↓
+⚠️ Global Financial Conflict
+          ↓
+🛡️ Governance Triggered
+```
 
-### 1. Clone & Setup Backend
+FinGuard identifies that the combined requests cannot safely execute while maintaining the required reserve.
+
+> **The conflict is between the combined financial impact of the agents and the merchant's global financial constraints.**
+
+---
+
+### Stage 04 — 🧪 What-If Simulation
+
+FinGuard evaluates alternative execution strategies instead of blindly executing the proposals.
+
+```text
+              Proposed Actions
+                     ↓
+             What-If Simulation
+              ↙      ↓      ↘
+        Scenario A  Scenario B  Scenario C
+              ↘      ↓      ↙
+               Safest Strategy
+```
+
+The system compares possible outcomes before selecting a governed execution path.
+
+---
+
+### Stage 05 — ⚖️ Governed Decision
+
+The Decision Engine determines:
+
+> **🟡 MODIFY**
+
+```text
+Execute Now       ₹1,00,000
+Delay             ₹3,00,000
+```
+
+The action is not simply rejected.
+
+FinGuard modifies the execution strategy to protect liquidity while allowing the financial objective to continue.
+
+---
+
+### Stage 06 — 👤 Human Approval
+
+If required by governance policy, the decision is routed through human approval.
+
+---
+
+### Stage 07 — 💳 Financial Execution
+
+The approved action is executed through the prototype's financial execution simulator.
+
+The simulator updates the merchant's financial state based on the governed decision.
+
+---
+
+### Stage 08 — 🧾 Audit
+
+The complete decision chain is recorded for traceability.
+
+```text
+Agent
+  ↓
+Proposed Action
+  ↓
+Financial Intent
+  ↓
+Policy Evaluation
+  ↓
+Financial State
+  ↓
+Conflict Detection
+  ↓
+Risk Analysis
+  ↓
+Simulation
+  ↓
+Final Decision
+  ↓
+Human Approval
+  ↓
+Execution Result
+  ↓
+Audit Receipt
+```
+
+---
+## 👤 Human-in-the-Loop Governance
+
+Sensitive or high-risk financial actions can require human approval before execution.
+
+```mermaid
+flowchart TD
+    A["⚖️ Governed Decision"] --> B{"Approval Required?"}
+    B -->|Yes| C["👤 Human Review"]
+    B -->|No| D["⚡ Execute"]
+    C --> E["✅ Approve"]
+    C --> F["❌ Reject"]
+    E --> D
+    F --> G["🚫 Do Not Execute"]
+```
+
+This creates a **dual-control mechanism** for sensitive financial actions.
+
+---
+## 🧾 Audit Trail
+
+Every governed action produces a traceable decision record.
+
+The audit trail captures the complete decision journey:
+
+```text
+Proposed Action
+      ↓
+Financial Intent
+      ↓
+Policy Evaluation
+      ↓
+Financial State
+      ↓
+Conflict Detection
+      ↓
+Risk Analysis
+      ↓
+Simulation Results
+      ↓
+Final Decision
+      ↓
+Human Approval
+      ↓
+Execution Result
+```
+
+The prototype can generate **SHA-256 hashed audit receipts**, making decision records tamper-evident.
+
+---
+## 📸 Product Screenshots
+
+Explore the FinGuard AI control plane through its key governance workflows.
+
+### 🖥️ Executive Control Plane
+
+The main dashboard provides a real-time overview of merchant financial state, governed agents, active risks, and system protection status.
+
+<p align="center">
+  <img src="screenshots/01-dashboard.png" width="900">
+</p>
+
+---
+
+### 🤖 Autonomous Agent Fleet
+
+View the autonomous financial agents operating under FinGuard governance, including their objectives, trust signals, and activity.
+
+<p align="center">
+  <img src="screenshots/02-autonomous%20agents.png" width="900">
+</p>
+
+---
+
+### ⚡ Live Actions Gateway
+
+Every proposed financial action enters the FinGuard gateway before reaching the execution layer.
+
+<p align="center">
+  <img src="screenshots/03-live%20actions%20gateway.png" width="900">
+</p>
+
+---
+
+### ⚠️ Cross-Agent Conflict Centre
+
+FinGuard identifies financial collisions created by multiple autonomous agents acting independently.
+
+<p align="center">
+  <img src="screenshots/04-conflict.png" width="900">
+</p>
+
+---
+
+### 📊 Risk Centre
+
+The risk analysis view evaluates the financial risk associated with a proposed action and its broader impact.
+
+<p align="center">
+  <img src="screenshots/05-risk%20centre.png" width="900">
+</p>
+
+---
+
+### 🧪 What-If Simulation
+
+FinGuard compares alternative execution strategies before selecting a safer path.
+
+<p align="center">
+  <img src="screenshots/06-whatif.png" width="900">
+</p>
+
+---
+
+### 👤 Human Approval
+
+Sensitive decisions can be routed through a human approval workflow before execution.
+
+<p align="center">
+  <img src="screenshots/07-approval.png" width="900">
+</p>
+
+---
+
+### 🧾 Audit Trail
+
+Every governed action produces a traceable record of the decision and execution journey.
+
+<p align="center">
+  <img src="screenshots/08-audit%20trail.png" width="900">
+</p>
+
+<p align="center">
+  <img src="screenshots/09-audit%20trail2.png" width="900">
+</p>
+
+---
+
+### 🔥 Hero Demo
+
+The complete multi-agent liquidity collision workflow brings the FinGuard governance pipeline together from proposal to execution.
+
+<p align="center">
+  <img src="screenshots/10-hero%20demo.png" width="900">
+</p>
+
+<p align="center">
+  <img src="screenshots/10-hero%20demo2.png" width="900">
+</p>
+
+<p align="center">
+  <img src="screenshots/10-hero%20demo3.png" width="900">
+</p>
+
+<p align="center">
+  <img src="screenshots/10-hero%20demo4.png" width="900">
+</p>
+
+
+---
+## 🧠 AI / ML Architecture
+
+FinGuard combines **AI-assisted financial intelligence** with **deterministic governance controls**.
+
+The AI layer provides analysis and prediction, while the governance layer ensures that financial actions remain within defined constraints.
+
+### Intelligence Pipeline
+
+```mermaid
+flowchart LR
+    A["💸 Proposed Action"] --> B["🛡️ Governance"]
+
+    B --> C["Policy Check"]
+    B --> D["Financial State"]
+
+    C --> E["🧠 Intelligence Layer"]
+    D --> E
+
+    E --> F["⚠️ Risk Analysis"]
+    E --> G["🔮 Future Impact"]
+    E --> H["🔄 Conflict Detection"]
+    E --> I["🧪 What-If Simulation"]
+
+    F --> J["⚖️ Decision Engine"]
+    G --> J
+    H --> J
+    I --> J
+
+    J --> K["Governed Outcome"]
+```
+
+### AI-Assisted Intelligence
+
+**⚠️ Risk Analysis**  
+Evaluates the potential financial risk of a proposed action.
+
+**🔮 Future Impact Prediction**  
+Estimates how an action may affect the merchant's future financial state.
+
+**🔄 Conflict Detection**  
+Identifies collisions between actions proposed by multiple autonomous agents.
+
+**🧪 What-If Simulation**  
+Compares alternative execution strategies before committing to an action.
+
+**💡 Safe Alternative Generation**  
+Suggests safer ways to achieve the original financial objective.
+
+> **Prototype Note:** The current demonstration uses synthetic merchant and agent telemetry. Financial execution is simulated.
+
+---
+
+## 🛠️ Technology Stack
+
+FinGuard is built using a modern full-stack architecture with Python-based backend services and a responsive web interface.
+
+### ⚙️ Backend
+
+**Python** · **FastAPI** · **Pydantic**
+
+Handles API services, financial governance workflows, action processing, and validation.
+
+### 🗄️ Data Layer
+
+**SQLAlchemy**
+
+Provides the database abstraction layer for storing and managing application data.
+
+### 🖥️ Frontend
+
+**React** · **TypeScript** · **Vite**
+
+Provides the interactive control plane for monitoring agents, evaluating actions, reviewing decisions, and viewing audit records.
+
+### 🎨 UI
+
+**Tailwind CSS**
+
+Used to build the responsive FinGuard control-plane interface.
+
+### 🧠 AI / ML
+
+**Python ML Stack**
+
+Used for risk analysis, prediction, agent intelligence, conflict detection, and simulation components.
+
+### 🧪 Testing
+
+**Pytest**
+
+Used to validate governance workflows and core backend functionality.
+
+### 🔧 Development & Version Control
+
+**Git** · **GitHub**
+
+Used for source control, collaboration, and project version management.
+
+### 🔗 Technology Flow
+
+```text
+React + TypeScript
+        ↓
+      FastAPI
+        ↓
+ Governance Engines
+        ↓
+ AI / ML Intelligence
+        ↓
+   SQLAlchemy
+        ↓
+ Financial State
+```
+## 🚀 Quick Start
+
+Follow the steps below to run FinGuard AI locally.
+
+### 1. Clone the Repository
+
 ```bash
-git clone https://github.com/your-username/finguard-ai.git
-cd finguard-ai
-
-# Install backend dependencies
-pip install -r backend/requirements.txt
-
-# (Optional) Retrain ML models from scratch
-python ml/data/generate_synthetic_data.py
-python ml/training/train_models.py
+git clone https://github.com/phd-119/FinGuard-AI.git
+cd FinGuard-AI
 ```
 
-### 2. Run Backend Server
+### 2. Backend Setup
+
+Open a terminal and navigate to the backend:
+
 ```bash
-# From repository root
-uvicorn backend.app.main:app --host 0.0.0.0 --port 8000 --reload
+cd backend
 ```
-*Backend API docs will be live at `http://localhost:8000/docs`.*
 
-### 3. Setup & Run Frontend
+Install the required Python dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+Start the FastAPI backend:
+
+```bash
+python -m uvicorn app.main:app --host 127.0.0.1 --port 8000
+```
+
+The backend will be available at:
+
+```text
+http://127.0.0.1:8000
+```
+
+### 3. Frontend Setup
+
+Open a **new terminal** from the project root:
+
 ```bash
 cd frontend
+```
+
+Install the frontend dependencies:
+
+```bash
 npm install
+```
+
+Start the development server:
+
+```bash
 npm run dev
 ```
-*Frontend control plane dashboard will be live at `http://localhost:5173`.*
+
+The FinGuard control plane will be available at:
+
+```text
+http://localhost:5173
+```
+
+### 4. Open FinGuard AI
+
+Once both servers are running, open:
+
+```text
+http://localhost:5173
+```
+
+You can now explore the FinGuard dashboard, autonomous agents, action gateway, conflict detection, risk analysis, simulations, approvals, execution, and audit trail.
 
 ---
 
-## 🧪 Running the Test Suite
+## 🧪 Testing
 
-Execute the comprehensive automated test suite (27 unit, engine, live API, and end-to-end integration tests):
+FinGuard includes automated tests for the core governance workflows.
+
+### Run the Test Suite
+
+From the project root:
 
 ```bash
-# Run pytest from repository root
 python -m pytest backend/tests -v
 ```
 
-### Verified Test Results:
+### Test Coverage
+
+The test suite validates key components including:
+
+```text
+Action Gateway
+Policy Evaluation
+Conflict Detection
+Risk Analysis
+What-If Simulation
+Decision Logic
+Human Approval
+Financial Execution
+Audit Generation
 ```
-backend/tests/test_all_endpoints_live.py::test_system_health PASSED      [  3%]
-backend/tests/test_all_endpoints_live.py::test_merchants_api PASSED      [  7%]
-backend/tests/test_all_endpoints_live.py::test_agents_api PASSED         [ 11%]
-backend/tests/test_all_endpoints_live.py::test_financial_state_api PASSED [ 14%]
-backend/tests/test_all_endpoints_live.py::test_policies_api PASSED       [ 18%]
-backend/tests/test_all_endpoints_live.py::test_action_gateway_propose_and_reasoning PASSED [ 22%]
-backend/tests/test_all_endpoints_live.py::test_conflicts_and_risk_api PASSED [ 25%]
-backend/tests/test_all_endpoints_live.py::test_approvals_and_audit_api PASSED [ 29%]
-backend/tests/test_all_endpoints_live.py::test_hero_demo_flow PASSED     [ 33%]
-backend/tests/test_api.py::test_health_and_root PASSED                   [ 37%]
-backend/tests/test_api.py::test_merchants_endpoints PASSED               [ 40%]
-backend/tests/test_api.py::test_agents_endpoints PASSED                  [ 44%]
-backend/tests/test_api.py::test_financial_state_and_health_endpoints PASSED [ 48%]
-backend/tests/test_api.py::test_policies_endpoints PASSED                [ 51%]
-backend/tests/test_api.py::test_action_gateway_rejects_unauthorized_agent PASSED [ 55%]
-backend/tests/test_engines.py::test_action_gateway_validation PASSED     [ 59%]
-backend/tests/test_engines.py::test_intent_engine PASSED                 [ 62%]
-backend/tests/test_engines.py::test_policy_engine_reserve_compliance PASSED [ 66%]
-backend/tests/test_engines.py::test_conflict_engine_detection PASSED     [ 70%]
-backend/tests/test_engines.py::test_optimization_engine_split_and_multi_agent PASSED [ 74%]
-backend/tests/test_engines.py::test_simulation_and_alternative_engine PASSED [ 77%]
-backend/tests/test_hero_demo.py::test_hero_demo_flow_end_to_end PASSED   [ 81%]
-backend/tests/test_pipeline.py::test_governance_pipeline_allow_flow PASSED [ 85%]
-backend/tests/test_pipeline.py::test_governance_pipeline_modify_flow PASSED [ 88%]
-backend/tests/test_pipeline.py::test_governance_pipeline_delay_flow PASSED [ 92%]
-backend/tests/test_pipeline.py::test_governance_pipeline_escalate_flow PASSED [ 96%]
-backend/tests/test_pipeline.py::test_governance_pipeline_block_flow PASSED [100%]
-======================== 27 passed, 1 warning in 1.99s ========================
-```
-
 ---
-
-## 🎬 How to Run the Hero Demo
-
-1. Open `http://localhost:5173` in your browser.
-2. Click the green **"Run FinGuard Demo"** button on the Dashboard, or click the **"Hero Demo"** navigation tab.
-3. Click through the 4 interactive stages:
-   - **Stage 1**: Observe initial state (₹6L Cash, ₹5L Reserve, ₹1L Free Liquidity).
-   - **Stage 2**: Inspect discovered background agents (Growth ₹2L, Refund ₹1L) colliding with Payout Agent (₹4L).
-   - **Stage 3**: Inspect FinGuard's 10-stage reasoning chain and derived **`MODIFY`** decision (₹1L immediate + ₹3L deferred).
-   - **Stage 4**: Click **"Sign & Execute Governed Action"** to approve the modified transaction. Verify that the merchant cash settles at **₹5,00,000 (Reserve 100% Intact)** and a cryptographic audit receipt is minted.
-
-*Detailed Integration Verification Report is available in [docs/INTEGRATION_VERIFICATION.md](docs/INTEGRATION_VERIFICATION.md).*
-
----
-
-## 📄 License
-Released under the [MIT License](LICENSE).
